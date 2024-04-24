@@ -26,6 +26,52 @@ class Tree {
     node.right = this.buildTree(arrRight);
     return node;
   }
+
+  insert(value) {
+    function traverse(currentNode) {
+      if (
+        (value <= currentNode.data && !currentNode.left) ||
+        (value > currentNode.data && !currentNode.right)
+      ) {
+        return currentNode;
+      }
+      if (value <= currentNode.data) {
+        currentNode = currentNode.left;
+        return traverse(currentNode);
+      }
+      if (value > currentNode.data) {
+        currentNode = currentNode.right;
+        return traverse(currentNode);
+      }
+    }
+
+    const parentNode = traverse(this.root);
+
+    if (value <= parentNode.data) {
+      parentNode.left = new Node(value);
+    }
+    if (value > parentNode.data) {
+      parentNode.right = new Node(value);
+    }
+  }
+
+  deleteItem(value) {
+    function traverse(currentNode) {
+      if (value === currentNode.left.data || value === currentNode.right.data) {
+        return currentNode;
+      }
+      if (value < currentNode.data) {
+        currentNode = currentNode.left;
+        return traverse(currentNode);
+      }
+      if (value > currentNode.data) {
+        currentNode = currentNode.right;
+        return traverse(currentNode);
+      }
+    }
+    const parentNode = traverse(this.root);
+    return parentNode;
+  }
 }
 
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -33,3 +79,4 @@ const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arr);
 
 prettyPrint(tree.root);
+console.log(tree.deleteItem(9));
