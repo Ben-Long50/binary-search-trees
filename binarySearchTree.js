@@ -11,18 +11,19 @@ class Tree {
   buildTree(array) {
     const nodeIndex = Math.floor(array.length / 2);
     const node = new Node(array[nodeIndex]);
-    if (array.length > 0 && node != null) {
-      const arrLeft = [];
-      for (let i = 0; i < nodeIndex; i++) {
-        arrLeft.push(array[i]);
-      }
-      node.left = this.buildTree(arrLeft);
-      const arrRight = [];
-      for (let i = nodeIndex + 1; i < array.length; i++) {
-        arrRight.push(array[i]);
-      }
-      node.right = this.buildTree(arrRight);
+    if (array.length === 0) {
+      return null;
     }
+    const arrLeft = [];
+    for (let i = 0; i < nodeIndex; i++) {
+      arrLeft.push(array[i]);
+    }
+    node.left = this.buildTree(arrLeft);
+    const arrRight = [];
+    for (let i = nodeIndex + 1; i < array.length; i++) {
+      arrRight.push(array[i]);
+    }
+    node.right = this.buildTree(arrRight);
     return node;
   }
 }
