@@ -77,18 +77,26 @@ class Tree {
 
     function replaceNode(currentNode) {
       if (currentNode.right) {
-        let targetNode = currentNode.right;
-        while (targetNode.left) {
-          targetNode = targetNode.left;
+        let previousNode = currentNode;
+        currentNode = currentNode.right;
+        while (currentNode.left) {
+          previousNode = currentNode;
+          currentNode = currentNode.left;
         }
-        return targetNode.data;
+        const nodeData = currentNode.data;
+        previousNode.left = null;
+        return nodeData;
       }
       if (currentNode.left) {
-        let targetNode = currentNode.left;
-        while (targetNode.right) {
-          targetNode = targetNode.right;
+        let previousNode = currentNode;
+        currentNode = currentNode.left;
+        while (currentNode.right) {
+          previousNode = currentNode;
+          currentNode = currentNode.right;
         }
-        return targetNode.data;
+        const nodeData = currentNode.data;
+        previousNode.right = null;
+        return nodeData;
       }
       return currentNode.data;
     }
@@ -101,5 +109,5 @@ const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arr);
 
 prettyPrint(tree.root);
-tree.deleteItem(67);
+tree.deleteItem(4);
 prettyPrint(tree.root);
