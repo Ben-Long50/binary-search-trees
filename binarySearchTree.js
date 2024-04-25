@@ -56,21 +56,43 @@ class Tree {
   }
 
   deleteItem(value) {
-    function traverse(currentNode) {
-      if (value === currentNode.left.data || value === currentNode.right.data) {
+    function getNode(currentNode) {
+      if (!currentNode) {
+        return 'Node not found';
+      }
+      if (value === currentNode.data) {
         return currentNode;
       }
-      if (value < currentNode.data) {
+      if (value <= currentNode.data) {
         currentNode = currentNode.left;
-        return traverse(currentNode);
+        return getNode(currentNode);
       }
       if (value > currentNode.data) {
         currentNode = currentNode.right;
-        return traverse(currentNode);
+        return getNode(currentNode);
       }
     }
-    const parentNode = traverse(this.root);
-    return parentNode;
+
+    const node = getNode(this.root);
+
+    function replaceNode(currentNode) {
+      if (currentNode.right) {
+        let targetNode = currentNode.right;
+        while (targetNode.left) {
+          targetNode = targetNode.left;
+        }
+        return targetNode.data;
+      }
+      if (currentNode.left) {
+        let targetNode = currentNode.left;
+        while (targetNode.right) {
+          targetNode = targetNode.right;
+        }
+        return targetNode.data;
+      }
+      return currentNode.data;
+    }
+    node.data = replaceNode(node);
   }
 }
 
@@ -79,4 +101,5 @@ const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arr);
 
 prettyPrint(tree.root);
-console.log(tree.deleteItem(9));
+tree.deleteItem(67);
+prettyPrint(tree.root);
