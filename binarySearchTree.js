@@ -56,24 +56,7 @@ class Tree {
   }
 
   deleteItem(value) {
-    function getNode(currentNode) {
-      if (!currentNode) {
-        return 'Node not found';
-      }
-      if (value === currentNode.data) {
-        return currentNode;
-      }
-      if (value <= currentNode.data) {
-        currentNode = currentNode.left;
-        return getNode(currentNode);
-      }
-      if (value > currentNode.data) {
-        currentNode = currentNode.right;
-        return getNode(currentNode);
-      }
-    }
-
-    const node = getNode(this.root);
+    const node = this.find(value);
 
     function replaceNode(currentNode) {
       if (currentNode.right) {
@@ -102,6 +85,42 @@ class Tree {
     }
     node.data = replaceNode(node);
   }
+
+  find(value) {
+    function getNode(currentNode) {
+      if (!currentNode) {
+        return 'Node not found';
+      }
+      if (value === currentNode.data) {
+        return currentNode;
+      }
+      if (value <= currentNode.data) {
+        currentNode = currentNode.left;
+        return getNode(currentNode);
+      }
+      if (value > currentNode.data) {
+        currentNode = currentNode.right;
+        return getNode(currentNode);
+      }
+    }
+    return getNode(this.root);
+  }
+
+  levelOrder(callback) {}
+
+  inOrder(callback) {}
+
+  preOrder(callback) {}
+
+  postOrder(callback) {}
+
+  height(node) {}
+
+  depth(node) {}
+
+  isBalanced() {}
+
+  rebalance() {}
 }
 
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -109,5 +128,6 @@ const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arr);
 
 prettyPrint(tree.root);
-tree.deleteItem(4);
+tree.deleteItem(67);
 prettyPrint(tree.root);
+console.log(tree.find(324));
