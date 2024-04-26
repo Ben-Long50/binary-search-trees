@@ -85,24 +85,21 @@ export default class Tree {
     node.data = replaceNode(node);
   }
 
-  find(value) {
-    function getNode(currentNode) {
-      if (!currentNode) {
-        return 'Node not found';
-      }
-      if (value === currentNode.data) {
-        return currentNode;
-      }
-      if (value <= currentNode.data) {
-        currentNode = currentNode.left;
-        return getNode(currentNode);
-      }
-      if (value > currentNode.data) {
-        currentNode = currentNode.right;
-        return getNode(currentNode);
-      }
+  find(value, currentNode = this.root) {
+    if (!currentNode) {
+      return 'Node not found';
     }
-    return getNode(this.root);
+    if (value === currentNode.data) {
+      return currentNode;
+    }
+    if (value <= currentNode.data) {
+      currentNode = currentNode.left;
+      return this.find(value, currentNode);
+    }
+    if (value > currentNode.data) {
+      currentNode = currentNode.right;
+      return this.find(value, currentNode);
+    }
   }
 
   levelOrder(callback) {
@@ -181,9 +178,28 @@ export default class Tree {
     return postOrderArray;
   }
 
-  height(node) {}
+  height(node, height = 0) {
+    if (node === null) {
+      height--;
+      return height;
+    }
+    height++;
+    return this.height(node.left, height);
+  }
 
-  depth(node) {}
+  depth(node, currentNode = this.root, depth = 0) {
+    if (node.data === currentNode.data) {
+      return depth;
+    }
+    if (node.data <= currentNode.data) {
+      depth++;
+      return this.depth(node, currentNode.left, depth);
+    }
+    if (node.data > currentNode.data) {
+      depth++;
+      return this.depth(node, currentNode.right, depth);
+    }
+  }
 
   isBalanced() {}
 
