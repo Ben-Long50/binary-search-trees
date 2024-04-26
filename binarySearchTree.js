@@ -61,6 +61,11 @@ export default class Tree {
       if (currentNode.right) {
         let previousNode = currentNode;
         currentNode = currentNode.right;
+        if (!currentNode.left) {
+          const nodeData = currentNode.data;
+          previousNode.right = null;
+          return nodeData;
+        }
         while (currentNode.left) {
           previousNode = currentNode;
           currentNode = currentNode.left;
@@ -72,6 +77,11 @@ export default class Tree {
       if (currentNode.left) {
         let previousNode = currentNode;
         currentNode = currentNode.left;
+        if (!currentNode.right) {
+          const nodeData = currentNode.data;
+          previousNode.left = null;
+          return nodeData;
+        }
         while (currentNode.right) {
           previousNode = currentNode;
           currentNode = currentNode.right;
