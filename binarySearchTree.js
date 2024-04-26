@@ -106,7 +106,30 @@ class Tree {
     return getNode(this.root);
   }
 
-  levelOrder(callback) {}
+  levelOrder(callback) {
+    const queue = [];
+    const breadthArray = [];
+    queue.push(this.root);
+    while (queue[0]) {
+      if (queue[0].left !== null) {
+        queue.push(queue[0].left);
+      }
+      if (queue[0].right !== null) {
+        queue.push(queue[0].right);
+      }
+      if (callback) {
+        let currentNode = queue.splice(0, 1)[0];
+        currentNode.data = callback(currentNode.data);
+      }
+      if (!callback) {
+        breadthArray.push(queue.splice(0, 1)[0].data);
+      }
+    }
+    if (callback) {
+      return;
+    }
+    return breadthArray;
+  }
 
   inOrder(callback) {}
 
@@ -126,8 +149,10 @@ class Tree {
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 const tree = new Tree(arr);
-
+function addOne(item) {
+  item *= 5;
+  return item;
+}
 prettyPrint(tree.root);
-tree.deleteItem(67);
+console.log(tree.levelOrder(addOne));
 prettyPrint(tree.root);
-console.log(tree.find(324));
