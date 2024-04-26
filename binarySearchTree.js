@@ -1,8 +1,7 @@
 import Node from './node.js';
 import mergeSort from './mergeSort.js';
-import prettyPrint from './prettyPrint.js';
 
-class Tree {
+export default class Tree {
   constructor(array) {
     this.sortedArray = mergeSort(array);
     this.root = this.buildTree(this.sortedArray);
@@ -118,7 +117,7 @@ class Tree {
         queue.push(queue[0].right);
       }
       if (callback) {
-        let currentNode = queue.splice(0, 1)[0];
+        const currentNode = queue.splice(0, 1)[0];
         currentNode.data = callback(currentNode.data);
       }
       if (!callback) {
@@ -131,11 +130,56 @@ class Tree {
     return breadthArray;
   }
 
-  inOrder(callback) {}
+  inOrder(callback, node = this.root, inOrderArray = []) {
+    if (node === null) {
+      return;
+    }
+    this.inOrder(callback, node.left, inOrderArray);
+    if (callback) {
+      node.data = callback(node.data);
+    } else {
+      inOrderArray.push(node.data);
+    }
+    this.inOrder(callback, node.right, inOrderArray);
+    if (callback) {
+      return;
+    }
+    return inOrderArray;
+  }
 
-  preOrder(callback) {}
+  preOrder(callback, node = this.root, preOrderArray = []) {
+    if (node === null) {
+      return;
+    }
+    if (callback) {
+      node.data = callback(node.data);
+    } else {
+      preOrderArray.push(node.data);
+    }
+    this.preOrder(callback, node.left, preOrderArray);
+    this.preOrder(callback, node.right, preOrderArray);
+    if (callback) {
+      return;
+    }
+    return preOrderArray;
+  }
 
-  postOrder(callback) {}
+  postOrder(callback, node = this.root, postOrderArray = []) {
+    if (node === null) {
+      return;
+    }
+    this.postOrder(callback, node.left, postOrderArray);
+    this.postOrder(callback, node.right, postOrderArray);
+    if (callback) {
+      node.data = callback(node.data);
+    } else {
+      postOrderArray.push(node.data);
+    }
+    if (callback) {
+      return;
+    }
+    return postOrderArray;
+  }
 
   height(node) {}
 
@@ -145,14 +189,3 @@ class Tree {
 
   rebalance() {}
 }
-
-const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-
-const tree = new Tree(arr);
-function addOne(item) {
-  item *= 5;
-  return item;
-}
-prettyPrint(tree.root);
-console.log(tree.levelOrder(addOne));
-prettyPrint(tree.root);
