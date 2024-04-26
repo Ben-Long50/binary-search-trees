@@ -1,19 +1,22 @@
 import Tree from './binarySearchTree.js';
+import generateArray from './generateArray.js';
 import prettyPrint from './prettyPrint.js';
 
-const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const arr = generateArray(30);
 
-const tree = new Tree(arr);
+const binaryTree = new Tree(arr);
 
-function addOne(item) {
-  item += 1;
-  return item;
-}
-
-prettyPrint(tree.root);
-// console.log(tree.postOrder());
-tree.deleteItem(3);
-tree.deleteItem(4);
-tree.deleteItem(67);
-prettyPrint(tree.root);
-// console.log(tree.height(tree.root.right));
+prettyPrint(binaryTree.root);
+console.log(binaryTree.isBalanced());
+console.log(binaryTree.inOrder());
+console.log(binaryTree.preOrder());
+console.log(binaryTree.postOrder());
+binaryTree.insert(110);
+binaryTree.insert(120);
+binaryTree.insert(130);
+binaryTree.insert(140);
+prettyPrint(binaryTree.root);
+console.log(binaryTree.isBalanced());
+binaryTree.rebalance();
+prettyPrint(binaryTree.root);
+console.log(binaryTree.isBalanced());

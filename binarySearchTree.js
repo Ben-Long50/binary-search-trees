@@ -189,12 +189,22 @@ export default class Tree {
   }
 
   height(node, height = 0) {
-    if (node === null) {
-      height--;
-      return height;
+    const queue = [node];
+    while (queue.length > 0) {
+      const levelSize = queue.length;
+      for (let i = 0; i < levelSize; i++) {
+        if (queue[0].left !== null) {
+          queue.push(queue[0].left);
+        }
+        if (queue[0].right !== null) {
+          queue.push(queue[0].right);
+        }
+        queue.splice(0, 1);
+      }
+      height++;
     }
-    height++;
-    return this.height(node.left, height);
+    height--;
+    return height;
   }
 
   depth(node, currentNode = this.root, depth = 0) {
@@ -211,7 +221,17 @@ export default class Tree {
     }
   }
 
-  isBalanced() {}
+  isBalanced() {
+    const leftHeight = this.height(this.root.left);
+    const rightHeight = this.height(this.root.right);
+    if (leftHeight - 1 > rightHeight || rightHeight - 1 > leftHeight) {
+      return false;
+    }
+    return true;
+  }
 
-  rebalance() {}
+  rebalance() {
+    const unorderedArray = this.inOrder();
+    this.root = this.buildTree(unorderedArray);
+  }
 }
